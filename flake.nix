@@ -14,7 +14,7 @@
       pkgs = import nixpkgs { inherit system; };
       lib = pkgs.lib;
       texlive = with pkgs.texlive; (combine {
-        inherit scheme-basic mathpazo babel babel-english amsmath palatino;
+        inherit scheme-basic microtype mathpazo babel babel-english amsmath palatino;
       });
     in
     {
