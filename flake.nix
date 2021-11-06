@@ -14,7 +14,7 @@
       pkgs = import nixpkgs { inherit system; };
       lib = pkgs.lib;
       texlive = with pkgs.texlive; (combine {
-        inherit scheme-small mathpazo babel babel-english eulervm euler fourier;
+        inherit scheme-minimal mathpazo babel babel-english amsmath palatino;
       });
     in
     {
