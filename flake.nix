@@ -22,8 +22,6 @@
         name = "buildLatexProject";
         src = builtins.path { path = ./.; name = "build-latex-project"; };
         installPhase = "bash ${./install.sh}";
-
-        inherit system;
       };
 
       devShell.${system} = mkShell {
