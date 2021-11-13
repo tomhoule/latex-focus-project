@@ -21,7 +21,7 @@
       packages."${system}".buildLatexProject = stdenv.mkDerivation {
         name = "buildLatexProject";
         src = builtins.path { path = ./.; name = "build-latex-project"; };
-        installPhase = "bash ${./builder.sh}";
+        installPhase = "bash ${./install.sh}";
 
         inherit system;
       };
