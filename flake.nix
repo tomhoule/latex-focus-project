@@ -15,32 +15,14 @@
       texlive = with pkgs.texlive; (combine {
         inherit scheme-basic microtype mathpazo babel babel-english amsmath palatino;
       });
-      inherit (pkgs) lib stdenv mkShell watchexec;
+      inherit (pkgs) lib stdenv mkShell watchexec xdg-utils;
     in
     {
-      packages."${system}".buildLatexProject = stdenv.mkDerivation {
+      defaultPackage."${system}" = stdenv.mkDerivation {
         name = "buildLatexProject";
         src = builtins.path { path = ./.; name = "build-latex-project"; };
+        buildInputs = [ texlive watchexec xdg-utils ];
         installPhase = "bash ${./install.sh}";
-      };
-
-      devShell.${system} = mkShell {
-        packages = [ texlive watchexec self.packages.${system}.buildLatexProject ];
-        shellHook = ''
-          export BUILD_DIR=`mktemp -d`;
-          export TARGET_LATEX_FILE="$BUILD_DIR/assembled_file.tex";
-          export TARGET_PDF="$BUILD_DIR/assembled_file.pdf";
-
-          function watch () {
-            buildLatexProject;
-            openPdf;
-            watchexec --restart --clear --debounce 200 -- buildLatexProject
-          }
-
-          function openPdf () {
-            zathura --fork $TARGET_PDF
-          }
-        '';
       };
     };
 }
