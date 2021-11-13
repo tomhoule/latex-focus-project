@@ -21,8 +21,9 @@
       defaultPackage."${system}" = stdenv.mkDerivation {
         name = "buildLatexProject";
         src = builtins.path { path = ./.; name = "build-latex-project"; };
-        buildInputs = [ texlive watchexec xdg-utils ];
         installPhase = "bash ${./install.sh}";
+        xdg_utils = xdg-utils;
+        inherit texlive watchexec;
       };
     };
 }

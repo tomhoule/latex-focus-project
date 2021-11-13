@@ -12,7 +12,7 @@ done
 
 echo "\end{document}" >> $TARGET_LATEX_FILE;
 
-pdflatex -output-directory $BUILD_DIR \
+$texlive/bin/pdflatex -output-directory $BUILD_DIR \
   -output-format=pdf \
   -file-line-error \
   -halt-on-error \
