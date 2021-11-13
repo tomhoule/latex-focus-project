@@ -4,32 +4,29 @@
     directory structure problems, so users can focus on writing content.
   '';
 
-  # inputs = {
-  #   nixpkgs.url = "nixpkgs/nixos-unstable";
-  # };
+  inputs = {
+    nixpkgs.url = "nixpkgs/nixos-unstable";
+  };
 
   outputs = { self, nixpkgs }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
-      lib = pkgs.lib;
       texlive = with pkgs.texlive; (combine {
         inherit scheme-basic microtype mathpazo babel babel-english amsmath palatino;
       });
+      inherit (pkgs) lib stdenv mkShell watchexec;
     in
     {
-      packages."${system}".buildLatexProject = derivation {
+      packages."${system}".buildLatexProject = stdenv.mkDerivation {
         name = "buildLatexProject";
-        src = ./.;
-        builder = "${pkgs.bash}/bin/bash";
-        args = [ ./builder.sh ];
-
-        coreutils = pkgs.coreutils;
+        src = builtins.path { path = ./.; name = "build-latex-project"; };
+        installPhase = "bash ${./builder.sh}";
 
         inherit system;
       };
 
-      devShell.${system} = with pkgs; mkShell {
+      devShell.${system} = mkShell {
         packages = [ texlive watchexec self.packages.${system}.buildLatexProject ];
         shellHook = ''
           export BUILD_DIR=`mktemp -d`;

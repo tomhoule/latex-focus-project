@@ -1,5 +1,3 @@
-PATH=$coreutils/bin
-
 mkdir -p $out/bin
 cp $src/header.tex $out/header.tex
 
