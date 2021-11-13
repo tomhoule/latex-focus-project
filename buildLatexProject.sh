@@ -1,8 +1,13 @@
+#!/usr/bin/env bash
+
+texlive=@texlive@
+headerFile=@headerFile@
+
 mkdir -p $BUILD_DIR/src
 
 echo "Working directory: $BUILD_DIR"
 
-cat $HEADER_FILE > $TARGET_LATEX_FILE;
+cat $headerFile > $TARGET_LATEX_FILE;
 echo "\begin{document}" >> $TARGET_LATEX_FILE;
 
 for fragment in ./src/*; do
@@ -17,4 +22,3 @@ $texlive/bin/pdflatex -output-directory $BUILD_DIR \
   -file-line-error \
   -halt-on-error \
   `basename $TARGET_LATEX_FILE`
-

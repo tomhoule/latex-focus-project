@@ -1,20 +1,24 @@
+source $stdenv/setup
+
 mkdir -p $out/bin
 
-# buildLatexProject
-BUILD_FILE=$out/bin/buildLatexProject
+headerFile=$out/header.tex
+cp $src/header.tex $headerFile
 
-cp $src/header.tex $out/header.tex
-echo "#!/usr/bin/env bash" > $BUILD_FILE
-echo "texlive=$texlive" > $BUILD_FILE
-echo "HEADER_FILE=$out/header.tex" >> $BUILD_FILE
-cat $src/buildLatexProject.sh >> $BUILD_FILE
+buildLatexProject=$out/bin/buildLatexProject
+watchLatexProject=$out/bin/watchLatexProject
 
-# watchLatexProject
-WATCH_FILE=$out/bin/watchLatexProject
+substitute \
+    ./buildLatexProject.sh \
+    $buildLatexProject \
+    --subst-var texlive \
+    --subst-var headerFile
 
-echo "watchexec=$watchexec" >> $WATCH_FILE
-echo "xdg_utils=$xdg_utils" >> $WATCH_FILE
-cat $src/watchLatexProject.sh >> $WATCH_FILE
+substitute \
+    ./watchLatexProject.sh \
+    $watchLatexProject \
+    --subst-var buildLatexProject \
+    --subst-var watchexec \
+    --subst-var xdg_open
 
-# Install
-chmod +x $BUILD_FILE $WATCH_FILE
+chmod +x $buildLatexProject $watchLatexProject
