@@ -3,6 +3,11 @@
 texlive=@texlive@
 headerFile=@headerFile@
 
+if [[ $BUILD_DIR == "" ]]; then
+    echo 'Error: $BUILD_DIR is not defined'
+    exit 1
+fi
+
 mkdir -p $BUILD_DIR/src
 
 echo "Working directory: $BUILD_DIR"
