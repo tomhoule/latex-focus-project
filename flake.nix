@@ -26,5 +26,7 @@
         xdg_open = "${xdg-utils}/bin/xdg-open";
         inherit texlive watchexec;
       };
+
+      packages."${system}".texlive = texlive;
     };
 }
