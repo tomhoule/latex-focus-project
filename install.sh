@@ -18,7 +18,6 @@ substitute \
     ./watchLatexProject.sh \
     $watchLatexProject \
     --subst-var buildLatexProject \
-    --subst-var watchexec \
-    --subst-var xdg_open
+    --subst-var watchexec
 
 chmod +x $buildLatexProject $watchLatexProject
