@@ -7,11 +7,13 @@ cp $src/header.tex $headerFile
 
 buildLatexProject=$out/bin/buildLatexProject
 watchLatexProject=$out/bin/watchLatexProject
+pdflatex=`command -v pdflatex`
+watchexec=`command -v watchexec`
 
 substitute \
     ./buildLatexProject.sh \
     $buildLatexProject \
-    --subst-var texlive \
+    --subst-var pdflatex \
     --subst-var headerFile
 
 substitute \
