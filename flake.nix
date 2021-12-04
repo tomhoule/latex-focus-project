@@ -22,17 +22,16 @@
         name = "buildLatexProject";
         src = builtins.path { path = ./.; name = "build-latex-project"; };
         preInstall = ./install.sh;
-
         buildInputs = [ texlive watchexec xdg-utils ];
-        xdg_open = "${xdg-utils}/bin/xdg-open";
       };
 
       mkLatexProject = ({ name, src }: stdenv.mkDerivation {
         inherit name src;
+        buildInputs = [ self.defaultPackage."${system}" ];
         buildPhase = ''
           export TARGET_LATEX_FILE="$TMPDIR/assembled_file.tex"
           export TARGET_PDF="$TMPDIR/assembled_file.pdf"
-          ${self.defaultPackage."${system}"}/bin/buildLatexProject
+          buildLatexProject
         '';
         installPhase = ''
           mkdir $out
